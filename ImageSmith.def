@@ -1,0 +1,25 @@
+
+# Use an Alpine Linux base image
+Bootstrap: docker
+From: alpine:latest
+
+%environment
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+%post
+    
+    # Update and install required packages
+    apk update && apk add --no-cache \
+        build-base \
+        go \
+        git \
+        linux-headers \
+        libseccomp-dev \
+        squashfs-tools \
+        curl \
+	apptainer
+    
+
+# Set default command for the container
+%runscript
+   echo "welcome to the ImageSmith apptainer production environment
