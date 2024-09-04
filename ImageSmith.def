@@ -18,8 +18,12 @@ From: alpine:latest
         squashfs-tools \
         curl \
 	apptainer
-    
+   
+    git clone https://github.com/stela2502/Tutorial_Singularity.git
+    mkdir /opt/ImageSmith
+    cp -R Tutorial_Singularity/* /opt/ImageSmith
+    ln /opt/ImageSmith/create_new_image_builder.sh /usre/bin
 
 # Set default command for the container
 %runscript
-   echo "welcome to the ImageSmith apptainer production environment
+   echo "welcome to the ImageSmith apptainer production environment"
