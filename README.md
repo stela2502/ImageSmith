@@ -66,7 +66,7 @@ make clean    # Cleans up the sandbox and image
 **Deploy:**
 
 The deployment part is a little more complicated as it will also create a lua module to integrate with COSMOS software management system.
-In theory you only need to specifiy the path to the module's software directory. And adjust the DEPLOY_DIR, MODULE_FILE and SERVER_DIR variables in the ``Makefile`` to your needs.
+In theory you only need to specifiy the path to the module's software directory - adjust the DEPLOY_DIR, MODULE_FILE and SERVER_DIR variables in the ``Makefile``.
 
 ### `ImageSmith.def`
 
