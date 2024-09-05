@@ -1,6 +1,11 @@
 # Singularity Image Builder Facility
 
-This repository provides a facility for building and managing Apptainer images, especially suited for HPC environments where users lack root access. The facility includes scripts and a Makefile to automate the creation, running, and deployment of Apptainer images.
+This repository provides a facility for building and managing Apptainer images, especially suited for HPC environments where users lack root access.
+The facility is based on [this Tutorial](https://github.com/stela2502/Tutorial_Singularity) and has the ``create_new_image_builder.sh`` in it's path.
+
+This repo includes scripts and a Makefile to automate the creation, running, and deployment of the ImageSmith images.
+
+# This Repository
 
 ## Overview
 
@@ -58,47 +63,16 @@ make clean    # Cleans up the sandbox and image
 - `deploy`: Deploys the built image to the specified deployment directory and creates a module file.
 - `clean`: Removes the sandbox and image file.
 
+**Deploy:**
+
+The deployment part is a little more complicated as it will also create a lua module to integrate with COSMOS software management system.
+In theory you only need to specifiy the path to the module's software directory. And adjust the DEPLOY_DIR, MODULE_FILE and SERVER_DIR variables in the ``Makefile`` to your needs.
+
 ### `ImageSmith.def`
 
 The `ImageSmith.def` file is used to build the Apptainer image. It specifies the base image and instructions for setting up the environment within the container.
 
-**Definition File:**
-```
-# Use an Alpine Linux base image
-Bootstrap: docker
-From: alpine:latest
-
-%environment
-    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
-%post
-    # Update and install required packages
-    apk update && apk add --no-cache \
-        build-base \
-        go \
-        git \
-        linux-headers \
-        libseccomp-dev \
-        squashfs-tools \
-        curl \
-        apptainer
-
-    git clone https://github.com/stela2502/Tutorial_Singularity.git
-    mkdir /opt/ImageSmith
-    cp -R Tutorial_Singularity/* /opt/ImageSmith
-    ln -s /opt/ImageSmith/create_new_image_builder.sh /usr/bin
-
-%runscript
-    echo "Welcome to the ImageSmith apptainer production environment"
-```
-
-**Description:**
-- **Bootstrap**: Specifies the base image source.
-- **%environment**: Sets environment variables for the container.
-- **%post**: Installs necessary packages, clones a repository, and sets up the environment.
-- **%runscript**: Defines the default command to be executed when the container is run.
-
-## Requirements
+## Requirements to build this image
 
 - **Apptainer**: Ensure Apptainer is installed on your system.
 - **sudo Access**: `shell.sh` and `Makefile` require `sudo` privileges for certain operations.
@@ -122,3 +96,16 @@ From: alpine:latest
 
 For further customization or support, refer to the [Apptainer documentation](https://apptainer.org/docs/).
 
+
+# Usage of the ImageSmith image
+
+Using the ImageSmith image does allow normal users to build Apptainer images on a HPC system (if it is connected to the internet).
+It's main benefit over a raw apptainer image it contains all logics to create e.g. itself from scratch.
+
+```bash
+create_new_image_builder.sh <path to>/<new image name>
+```
+
+Will create the image core structure including a Makefile like this repository has and the shell.sh and run.sh scripts.
+
+I really hope this will help to get peaople using the Apptainer images more frequently.
