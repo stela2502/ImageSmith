@@ -4,12 +4,13 @@ Bootstrap: docker
 From: alpine:latest
 
 %environment
-    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ImageSmith
 
 %post
     
     # Update and install required packages
     apk update && apk add --no-cache \
+        bash \
         build-base \
         go \
         git \
@@ -22,8 +23,13 @@ From: alpine:latest
     git clone https://github.com/stela2502/Tutorial_Singularity.git
     mkdir /opt/ImageSmith
     cp -R Tutorial_Singularity/* /opt/ImageSmith
-    ln /opt/ImageSmith/create_new_image_builder.sh /usre/bin
 
-# Set default command for the container
-%runscript
-   echo "welcome to the ImageSmith apptainer production environment"
+    cat <<EOF > /usr/local/bin/sudo
+#!/bin/bash
+
+# Check if the script is running as root
+echo "sudo not necessary in image..."
+"\$@"
+EOF
+   chmod +x /usr/local/bin/sudo
+

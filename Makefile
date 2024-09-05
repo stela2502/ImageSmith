@@ -33,6 +33,10 @@ build:
 	@echo "Building $(IMAGE_NAME) from $(SANDBOX_DIR)..."
 	sudo apptainer build $(IMAGE_NAME) $(SANDBOX_DIR)
 
+direct:
+	@echo "Building from definition file..."
+	sudo apptainer build $(IMAGE_NAME) $(DEFINITION_FILE)
+
 # Deploy the image by copying it to the deployment directory
 deploy:
 	@echo "Deploying $(IMAGE_NAME) to $(DEPLOY_DIR)..."
@@ -46,6 +50,6 @@ deploy:
 # Clean up the sandbox and image
 clean:
 	@echo "Cleaning up..."
-	rm -rf $(SANDBOX_DIR)
-	rm -f $(IMAGE_NAME)
+	sudo rm -rf $(SANDBOX_DIR)
+	sudo rm -f $(IMAGE_NAME)
 
