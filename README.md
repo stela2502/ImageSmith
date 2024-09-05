@@ -99,13 +99,18 @@ For further customization or support, refer to the [Apptainer documentation](htt
 
 # Usage of the ImageSmith image
 
-Using the ImageSmith image does allow normal users to build Apptainer images on a HPC system (if it is connected to the internet).
-It's main benefit over a raw apptainer image it contains all logics to create e.g. itself from scratch.
+The ImageSmith image enables regular users to build Apptainer images on an HPC system, provided it has internet access. Its key advantage over a raw Apptainer image is that it includes all the necessary logic to create new images from scratch—such as itself.
 
+
+To create a new image, simply run:
 ```bash
-create_new_image_builder.sh <path to>/<new image name>
+create_new_image_builder.sh <path-to>/<new-image-name>
 ```
 
-Will create the image core structure including a Makefile like this repository has and the shell.sh and run.sh scripts.
+This command generates the core structure of the image, including a ``Makefile``, as well as ``shell.sh`` and ``run.sh`` scripts, similar to those found in this repository.
 
-I really hope this will help to get peaople using the Apptainer images more frequently.
+The definition file included in the generated image will be the minimal ``Bioinformatics.def`` from the tutorial. This provides JupyterLab with ``nbconvert`` and ``papermill`` extensions, along with R. You can also run R through JupyterLab.
+
+To customize the image, just edit the ``.def`` file to specify which R, Python, or other packages and programs you'd like to install. Then, build the image and you're ready to use or deploy it.
+
+I hope this helps make Apptainer images more accessible and encourages more people to use them regularly!
