@@ -16,7 +16,7 @@ SERVER_DIR := /scale/gr01/shared/common/software/$(SANDBOX_DIR)/$(VERSION)
 .PHONY: all restart build deploy clean
 
 # Default target - runs all the steps
-all: restart build deploy
+all: clean restart build deploy
 
 # Restart the sandbox - creates or updates the sandbox
 restart:

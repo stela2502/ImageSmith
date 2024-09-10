@@ -18,8 +18,33 @@ From: alpine:latest
         libseccomp-dev \
         squashfs-tools \
         curl \
+        openblas-dev \
+        gfortran \
+        python3 \
+        py3-pip \
+        python3-dev \
+        py3-setuptools \
+        py3-wheel \
+        libxml2-dev \
+        libcurl \
+        curl-dev \
+        linux-headers \
+        zeromq-dev \
+        gcc \
+        g++ \
+        gfortran \
+        libffi-dev \
+        openssl-dev \
+        make \
+        cmake \
 	apptainer
    
+
+    # Install JupyterLab and its dependencies using pip
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+    pip3 install --upgrade pip
+    pip3 install jupyterlab
+
     git clone https://github.com/stela2502/Tutorial_Singularity.git
     mkdir /opt/ImageSmith
     cp -R Tutorial_Singularity/* /opt/ImageSmith
@@ -33,3 +58,5 @@ echo "sudo not necessary in image..."
 EOF
    chmod +x /usr/local/bin/sudo
 
+%runscript
+  jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
