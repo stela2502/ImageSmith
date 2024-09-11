@@ -19,8 +19,7 @@ mkdir -p "$(dirname "$MODULE_FILE")"
 
 # Create the module file
 cat <<EOF 
-help([[This module is an example Singularity Image prowiding  
-       a 'naked' Python Jupyter Lab interface to both Python and R ]])
+help([[This is the ImageSmith - an apptainer image to build apptainer images]])
 
 local version = "$VERSION"
 local base = pathJoin("$PATH_ARG")
@@ -38,7 +37,7 @@ execute{cmd="singularity run -B/scale,/sw ".. base.. "/${IMAGE_NAME}_v".. versio
 whatis("Name         : ${IMAGE_NAME} singularity image")
 whatis("Version      : ${IMAGE_NAME} $VERSION")
 whatis("Category     : Image")
-whatis("Description  : Singularity image providing Python and R and a jupyter lab as default entry point ")
+whatis("Description  : Singularity image providing a jupyter lab as default entry point and the create_new_image_builder.sh image setup tool")
 whatis("Installed on : $(date +'%d/%m/%Y') ")
 whatis("Modified on  : --- ")
 whatis("Installed by : \`whomai\`")
