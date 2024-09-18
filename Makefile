@@ -1,5 +1,5 @@
 # Variables
-VERSION := 1.0
+VERSION := 1.1
 IMAGE_NAME := ImageSmith_v$(VERSION).sif
 SANDBOX_DIR := ImageSmith
 DEFINITION_FILE := ImageSmith.def
@@ -32,10 +32,13 @@ restart:
 build:
 	@echo "Building $(IMAGE_NAME) from $(SANDBOX_DIR)..."
 	sudo apptainer build $(IMAGE_NAME) $(SANDBOX_DIR)
-
+	@# make sure the run script starts the correct version.
+	@sed -i 's/^VERSION=1.0/VERSION=$(VERSION)/' run.sh	
 direct:
 	@echo "Building from definition file..."
 	sudo apptainer build $(IMAGE_NAME) $(DEFINITION_FILE)
+	@# make sure the run script starts the correct version.
+	@sed -i 's/^VERSION=1.0/VERSION=$(VERSION)/' run.sh
 
 # Deploy the image by copying it to the deployment directory
 deploy:

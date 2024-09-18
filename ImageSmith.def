@@ -1,54 +1,65 @@
-
-# Use an Alpine Linux base image
+# Use an Ubuntu base image
 Bootstrap: docker
-From: alpine:latest
+From: ubuntu:latest
 
 %environment
     export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ImageSmith
+    export PYTHONNOUSERSITE="true"
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+
 
 %post
-    
     # Update and install required packages
-    apk update && apk add --no-cache \
+    apt-get update && apt-get install -y --no-install-recommends \
         bash \
-        build-base \
-        go \
+        build-essential \
+        golang \
         git \
-        linux-headers \
+        linux-headers-generic \
         libseccomp-dev \
         squashfs-tools \
         curl \
-        openblas-dev \
+        libopenblas-dev \
         gfortran \
         python3 \
-        py3-pip \
+        python3-pip \
         python3-dev \
-        py3-setuptools \
-        py3-wheel \
+        python3-setuptools \
+        python3-wheel \
         libxml2-dev \
-        libcurl \
-        curl-dev \
-        linux-headers \
-        zeromq-dev \
+        libcurl4-openssl-dev \
+        libzmq3-dev \
         gcc \
         g++ \
-        gfortran \
         libffi-dev \
-        openssl-dev \
+        libssl-dev \
         make \
         cmake \
-	apptainer
-   
+        software-properties-common  
+    
+	rm -rf /var/lib/apt/lists/*
 
-    # Install JupyterLab and its dependencies using pip
+    export PYTHONNOUSERSITE="true"
     export PIP_BREAK_SYSTEM_PACKAGES=1
-    pip3 install --upgrade pip
+
+    add-apt-repository -y ppa:apptainer/ppa
+    apt update
+    apt install --no-install-recommends -y apptainer
+    
     pip3 install jupyterlab
 
+    # Clone the repository and set up directories
     git clone https://github.com/stela2502/Tutorial_Singularity.git
     mkdir /opt/ImageSmith
     cp -R Tutorial_Singularity/* /opt/ImageSmith
+    # mountpoint for the open cosmos main storage area.
 
+    mkdir /projects
+    mkdir /local
+
+    rm -rf /var/lib/apt/lists/*
+
+    # Create a sudo script to bypass sudo requirement
     cat <<EOF > /usr/local/bin/sudo
 #!/bin/bash
 

@@ -1,0 +1,9 @@
+# Use an Alpine base image
+Bootstrap: docker
+From: alpine:latest
+
+%environment
+    export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ImageSmith
+
+%post
+
