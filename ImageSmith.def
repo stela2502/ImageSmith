@@ -37,6 +37,9 @@ From: alpine:latest
         openssl-dev \
         make \
         cmake \
+	shadow \
+        shadow-uidmap \
+	fakeroot \
 	apptainer
    
 
@@ -57,6 +60,7 @@ echo "sudo not necessary in image..."
 "\$@"
 EOF
    chmod +x /usr/local/bin/sudo
+#   chown root:root /usr/bin/newuidmap
 
 %runscript
   jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser

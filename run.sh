@@ -14,5 +14,5 @@ fi
 
 # Run the image
 echo "Running ${IMAGE_NAME}..."
-apptainer run "${IMAGE_PATH}/${IMAGE_NAME}"
+apptainer run --cleanenv "${IMAGE_PATH}/${IMAGE_NAME}"
 
