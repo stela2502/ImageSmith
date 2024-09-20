@@ -9,3 +9,5 @@ apptainer
 build*
 MINIMAL*/
 nested/
+*.out
+*.err
