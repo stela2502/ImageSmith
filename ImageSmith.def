@@ -5,6 +5,7 @@ From: alpine:latest
 
 %environment
     export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ImageSmith
+    export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfakeroot/libfakeroot.so
 
 %post
     
@@ -14,6 +15,7 @@ From: alpine:latest
         build-base \
         go \
         git \
+        fakeroot \
         linux-headers \
         libseccomp-dev \
         squashfs-tools \
@@ -41,7 +43,27 @@ From: alpine:latest
         shadow-uidmap \
 	fakeroot \
 	apptainer
-   
+
+  
+    #if [ -d apptainer ]; then
+#	 rm -Rf apptainer
+#    fi 
+#    LATEST_RELEASE=$(curl -s https://api.github.com/repos/apptainer/apptainer/releases/latest | jq -r .tag_name)
+#    echo "cloning apptainer release $LATEST_RELEASE"
+#    git clone --branch "$LATEST_RELEASE" https://github.com/apptainer/apptainer.git
+#    cd apptainer
+#    ./mconfig --with-suid
+#    echo "config finished"
+#    cd builddir
+#    make 
+#    echo "make finished"
+#    make install
+#    echo "make install finsihed"
+#    cd ..
+#    rm -Rf apptainer
+#    chmod -R u+rwx /root/go/pkg
+#    rm -Rf /root/go/pkg
+#    echo "apptainer git folder and the go cache has been removed"
 
     # Install JupyterLab and its dependencies using pip
     export PIP_BREAK_SYSTEM_PACKAGES=1
@@ -60,7 +82,7 @@ echo "sudo not necessary in image..."
 "\$@"
 EOF
    chmod +x /usr/local/bin/sudo
-#   chown root:root /usr/bin/newuidmap
+   rm -Rf /root/.cache
 
 %runscript
   jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
