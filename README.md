@@ -1,7 +1,7 @@
 # Singularity Image Builder Facility
 
 This repository provides a facility for building and managing Apptainer images, especially suited for HPC environments where users lack root access.
-The facility is based on [this Tutorial](https://github.com/stela2502/Tutorial_Singularity) and has the ``create_new_image_builder.sh`` in it's path.
+The facility is based on [this Tutorial](https://github.com/stela2502/Tutorial_Singularity). The assisted image creation discussed in the Tutorial is available as  ``/opt/ImageSmith/create_new_image_builder.sh`` in the image.
 
 This repo includes scripts and a Makefile to automate the creation, running, and deployment of the ImageSmith images.
 
