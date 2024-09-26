@@ -78,6 +78,8 @@ From: alpine:latest
     git clone https://github.com/stela2502/Tutorial_Singularity.git
     mkdir /opt/ImageSmith
     cp -R Tutorial_Singularity/* /opt/ImageSmith
+
+    chmod +x /usr/local/bin/*
    
     rm -Rf /root/.cache
 
