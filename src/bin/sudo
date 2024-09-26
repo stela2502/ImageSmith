@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Check if the script is running as root
+echo "sudo not necessary in image..."
+$@

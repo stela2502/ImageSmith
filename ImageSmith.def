@@ -6,6 +6,11 @@ From: alpine:latest
 %environment
     export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/ImageSmith
     export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfakeroot/libfakeroot.so
+    export SINGULARITY_BIND=
+    export APPTAINER_BIND=
+
+%files
+    src/bin/* /usr/local/bin/
 
 %post
     
@@ -73,16 +78,9 @@ From: alpine:latest
     git clone https://github.com/stela2502/Tutorial_Singularity.git
     mkdir /opt/ImageSmith
     cp -R Tutorial_Singularity/* /opt/ImageSmith
-
-    cat <<EOF > /usr/local/bin/sudo
-#!/bin/bash
-
-# Check if the script is running as root
-echo "sudo not necessary in image..."
-"\$@"
-EOF
-   chmod +x /usr/local/bin/sudo
-   rm -Rf /root/.cache
+   
+    rm -Rf /root/.cache
 
 %runscript
+   export SNIC_TMP=`regenerate_snic_tmp.sh`
   jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
