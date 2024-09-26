@@ -44,10 +44,11 @@ From: alpine:latest
         openssl-dev \
         make \
         cmake \
-	shadow \
+	    shadow \
         shadow-uidmap \
-	fakeroot \
-	apptainer
+	    fakeroot \
+        rsync \
+	    apptainer
 
   
     #if [ -d apptainer ]; then
