@@ -20,7 +20,7 @@ From: alpine:latest
         build-base \
         go \
         git \
-        ssh \
+        openssh \
         fakeroot \
         linux-headers \
         libseccomp-dev \
