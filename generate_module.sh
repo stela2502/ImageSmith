@@ -24,15 +24,56 @@ help([[This is the ImageSmith - an apptainer image to build apptainer images]])
 local version = "$VERSION"
 local base = pathJoin("$PATH_ARG")
 
+-- check if the possible bind path's are available on this system(open or closed COSMOS)
+-- Function to check if a path exists on the system
+function path_exists(path)
+   local file = io.open(path, "r")
+   if file then
+      file:close()
+      return true
+   else
+      return false
+   end
+end
+
+-- Define possible mount points
+local mounts = {
+    "/local",
+    "/projects",
+    "/scale",
+    "/sw"
+}
+
+-- Prepare the bind paths environment variable
+local bind_paths = ""
+
+-- Check each mount point and only add existing ones
+for _, path in ipairs(mounts) do
+    if path_exists(path) then
+        if bind_paths == "" then
+            bind_paths = path  -- First valid path
+        else
+            bind_paths = bind_paths .. "," .. path  -- Append valid path
+        end
+    end
+end
+
+-- If any valid bind paths exist, set the environment variable for Apptainer
+if bind_paths ~= "" then
+    bind_paths = "-B "..bind_paths
+end
 
 -- this happens at load
-execute{cmd="singularity run -B/scale,/sw ".. base.. "/${IMAGE_NAME}_v".. version ..".sif",modeA={"load"}}
+execute{cmd="singularity run "..bind_paths.." --cleanenv ".. base.. "/${IMAGE_NAME}_v".. version ..".sif",modeA={"load"}}
 
 
 -- this happens at unload
 -- could also do "conda deactivate; " but that should be part of independent VE module
 
 -- execute{cmd="exit",modeA={"load"}}
+
+
+
 
 whatis("Name         : ${IMAGE_NAME} singularity image")
 whatis("Version      : ${IMAGE_NAME} $VERSION")
