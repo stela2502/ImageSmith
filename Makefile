@@ -52,7 +52,11 @@ deploy:
 # Clean up the sandbox and image
 clean:
 	@echo "Cleaning up..."
-	@chmod -R u+w $(SANDBOX_DIR)
-	sudo rm -rf $(SANDBOX_DIR)
-	sudo rm -f $(IMAGE_NAME)
+	@if [ -d "$(SANDBOX_DIR)" ]; then \
+        chmod -R u+w $(SANDBOX_DIR); \
+        sudo rm -rf $(SANDBOX_DIR); \
+    fi
+	    @if [ -f "$(IMAGE_NAME)" ]; then \
+        sudo rm -f $(IMAGE_NAME); \
+    fi
 
