@@ -1,5 +1,5 @@
 # Variables
-VERSION := 1.0
+VERSION := 1.2
 IMAGE_NAME := ImageSmith_v$(VERSION).sif
 SANDBOX_DIR := ImageSmith
 DEFINITION_FILE := ImageSmith.def
